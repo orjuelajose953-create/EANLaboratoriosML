@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Riesgo de demora</title>
+  <style>
+    :root { --tinta: #1f1e1c; --tenue: #6b6a65; --fondo: #faf9f6; --panel: #fff; --borde: #e3e1db;
+            --azul: #2563a6; --naranja: #d9741c; --verde: #2f7d4f; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font: 15px/1.5 system-ui, sans-serif; color: var(--tinta); background: var(--fondo); }
+    main { max-width: 960px; margin: 0 auto; padding: 24px 16px; display: grid; gap: 24px;
+           grid-template-columns: 1fr 300px; align-items: start; }
+    h1 { grid-column: 1 / -1; margin: 0; font-size: 22px; }
+    h1 small { display: block; font-size: 14px; font-weight: 400; color: var(--tenue); }
+    form { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+    .campo { display: flex; flex-direction: column; gap: 4px; }
+    .campo:has(input[type=checkbox]) { flex-direction: row-reverse; justify-content: flex-end; align-items: center; }
+    label { font-size: 13px; color: var(--tenue); }
+    select, input { font: inherit; padding: 6px 8px; border: 1px solid var(--borde); border-radius: 6px;
+                    background: var(--panel); min-width: 0; }
+    aside { position: sticky; top: 16px; background: var(--panel); border: 1px solid var(--borde);
+            border-radius: 10px; padding: 20px; }
+    #probabilidad { font-size: 40px; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .pista { height: 8px; background: var(--borde); border-radius: 4px; overflow: hidden; margin: 8px 0 16px; }
+    #barra { height: 100%; background: var(--azul); transition: width .15s; }
+    #decision { font-weight: 600; }
+    #decision.alerta { color: var(--naranja); }
+    #decision.ok { color: var(--verde); }
+    aside p { font-size: 13px; color: var(--tenue); margin: 12px 0 0; }
+    @media (max-width: 720px) { main { grid-template-columns: 1fr; } aside { position: static; } }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>¿Esta orden tardará más de 60 días?
+      <small>Modelo: <span id="nombre-modelo"></span> · se calcula en tu navegador, sin servidor</small></h1>
+    <form id="formulario" onsubmit="return false"></form>
+    <aside>
+      <div>Probabilidad de demora</div>
+      <div id="probabilidad">–</div>
+      <div class="pista"><div id="barra"></div></div>
+      <div id="decision"></div>
+      <p>Se recomienda seguimiento cuando la probabilidad supera el umbral por costo (<span id="umbral"></span>),
+         elegido con un falso negativo tres veces más costoso que un falso positivo.</p>
+    </aside>
+  </main>
+  <script src="modelo.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
